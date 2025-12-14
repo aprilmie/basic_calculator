@@ -5,51 +5,46 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-function add(a, b) {
-  return a + b;
-}
 
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) {
-    throw new Error("Dili pwede division by zero!");
+const calculator = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+  multiply: (a, b) => a * b,
+  divide: (a, b) => {
+    if (b === 0) {
+      throw new Error("Cannot divide by zero");
+    }
+    return a / b;
+  },
+  average: (nums) => {
+    let sum = 0;
+    for (let n of nums) {
+      sum += n;
+    }
+    return sum / nums.length;
   }
-  return a / b;
-}
+};
 
-function average(numbers) {
-  let sum = 0;
-  for (let num of numbers) {
-    sum += num;
-  }
-  return sum / numbers.length;
-}
 
-rl.question("Enter first number: ", (num1) => {
-  rl.question("Enter second number: ", (num2) => {
+rl.question("First value: ", (val1) => {
+  rl.question("Second value: ", (val2) => {
     try {
-      let a = Number(num1);
-      let b = Number(num2);
+      let x = Number(val1);
+      let y = Number(val2);
 
-      if (isNaN(a) || isNaN(b)) {
-        throw new Error("Dapat number ra imong i-input!");
+      if (!Number.isFinite(x) || !Number.isFinite(y)) {
+        throw new Error("Input must be numeric");
       }
 
-      console.log("Add:", add(a, b));
-      console.log("Subtract:", subtract(a, b));
-      console.log("Multiply:", multiply(a, b));
-      console.log("Divide:", divide(a, b));
-      console.log("Average:", average([a, b]));
+      console.log("\n--- CALCULATION RESULTS ---");
+      console.log(`Addition: ${calculator.add(x, y)}`);
+      console.log(`Subtraction: ${calculator.subtract(x, y)}`);
+      console.log(`Multiplication: ${calculator.multiply(x, y)}`);
+      console.log(`Division: ${calculator.divide(x, y)}`);
+      console.log(`Average: ${calculator.average([x, y])}`);
 
-    } catch (error) {
-      console.log("Error:", error.message);
+    } catch (e) {
+      console.log("Calculation Error:", e.message);
     } finally {
       rl.close();
     }
