@@ -1,57 +1,62 @@
 const readline = require("readline");
 
-const rl = readline.createInterface({
+const input = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-function add(a, b) {
-  return a + b;
+function plus(x, y) {
+  return x + y;
 }
 
-function subtract(a, b) {
-  return a - b;
+function minus(x, y) {
+  return x - y;
 }
 
-function multiply(a, b) {
-  return a * b;
+function times(x, y) {
+  return x * y;
 }
 
-function divide(a, b) {
-  if (b === 0) {
-    throw new Error("Dili pwede division by zero!");
+function divideNums(x, y) {
+  if (y === 0) {
+    throw new Error("Zero is not allowed as divisor");
   }
-  return a / b;
+  return x / y;
 }
 
-function average(numbers) {
-  let sum = 0;
-  for (let num of numbers) {
-    sum += num;
+function getAverage(list) {
+  let total = 0;
+  let i = 0;
+
+  while (i < list.length) {
+    total += list[i];
+    i++;
   }
-  return sum / numbers.length;
+  return total / list.length;
 }
 
-rl.question("Enter first number: ", (num1) => {
-  rl.question("Enter second number: ", (num2) => {
+input.question("Input number 1: ", (first) => {
+  input.question("Input number 2: ", (second) => {
     try {
-      let a = Number(num1);
-      let b = Number(num2);
+      const n1 = parseFloat(first);
+      const n2 = parseFloat(second);
 
-      if (isNaN(a) || isNaN(b)) {
-        throw new Error("Dapat number ra imong i-input!");
+      if (isNaN(n1) || isNaN(n2)) {
+        throw new Error("Invalid input, numbers only");
       }
 
-      console.log("Add:", add(a, b));
-      console.log("Subtract:", subtract(a, b));
-      console.log("Multiply:", multiply(a, b));
-      console.log("Divide:", divide(a, b));
-      console.log("Average:", average([a, b]));
+      const values = [n1, n2];
 
-    } catch (error) {
-      console.log("Error:", error.message);
+      console.log("Result Addition:", plus(n1, n2));
+      console.log("Result Subtraction:", minus(n1, n2));
+      console.log("Result Multiplication:", times(n1, n2));
+      console.log("Result Division:", divideNums(n1, n2));
+      console.log("Result Average:", getAverage(values));
+
+    } catch (err) {
+      console.log("Error found:", err.message);
     } finally {
-      rl.close();
+      input.close();
     }
   });
 });
